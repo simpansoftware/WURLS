@@ -1,0 +1,43 @@
+body {
+    background-color: #303446;
+}
+
+.centerrect {
+    height: 70vh;
+    width: 70vw;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #737994;
+    border-radius: 20px;
+    border: 8px solid #949cbb;
+}
+
+.thething {
+    max-width: 60vw;
+    max-height: 60vh;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #949cbb;
+    border-radius: 20px;
+    border: 8px solid #a5adce;
+}
+
+
+.title {
+    max-height: 8vh;
+    height: 100%;
+}
+
+.abcdeidontknow {
+    text-align: center;
+}
