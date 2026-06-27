@@ -1,0 +1,68 @@
+body {
+    color: #cdd6f4;
+    background-color: #1e1e2e;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+.centerrect {
+    position: absolute;
+    padding: 10vh;
+    height: fit-content;
+    width: fit-content;
+    margin-top: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-radius: 20px;
+}
+
+.thething {
+    padding: 1vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    max-width: 50vw;
+    max-height: 50vh;
+    height: fit-content;
+    width: fit-content;
+    background-color: #313244;
+    border-radius: 20px;
+    border: 8px solid #181825
+}
+
+
+.title {
+    max-height: 8vh;
+    height: 100%;
+    color: white;
+}
+
+.abcdeidontknow {
+    text-align: center;
+}
+
+.footer a:hover {
+    color: #cba6f7;
+    text-shadow: 0 0 5px #cba6f7;
+}
+
+a:visited {
+    color: #cdd6f4;
+}
+
+a:link {
+    color: #cdd6f4;
+}
+
+.footer a:link {
+    color: #cdd6f4;
+    text-decoration: none;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    padding-left: 10px;
+    padding-bottom: 15px
+}

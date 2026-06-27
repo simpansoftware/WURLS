@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+    <title>WURLS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="centerrect">
+        <h1 class="title abcdeidontknow" style="z-index: 9999999;">WURLS</h1>
+        <div class="thething abcdeidontknow">
+            {% if shortened %}
+                <p>Your shortened link:<br>
+                <strong><a href="{{ origin }}/l?url={{ shortened }}">{{origin}}/l?url={{ shortened }}</a></strong></p>
+            {% endif %}
+            {% if exists %}
+                <p>Your shortened link:<br>
+                <strong><a href="{{ origin }}/l?url={{ exists }}">{{origin}}/l?url={{ exists }}</a></strong></p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="footer">
+        <a href="usage">Usage</a>
+    </div>
+</body>
