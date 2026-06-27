@@ -26,7 +26,7 @@ def shorten():
     url = request.form['url']
     origin = request.headers.get("Origin") or request.host_url
     if validators.url(url) != True:
-        return render_template("error.html", error="Invalid URL (maybe you forgot to put https:// before it?)")
+        return render_template("error.html", error="Invalid URL (maybe you forgot to put https:// before it?)"), 404
     else:
         with open("urls.json", "r") as f:
             data = json.load(f)
@@ -50,7 +50,7 @@ def getlink():
         data = json.load(f)
 
     if shortthing not in data:
-        return "short url not found", 404
+        return render_template("error.html", error="Shortened URL not found"), 404
 
     return redirect(data[shortthing]["long"])
 
@@ -66,7 +66,7 @@ def getshort():
                 return render_template("goto.html", origin=origin, url=longthing, short=short)
         
         if longthing not in data:
-            return "short url not found", 404
+            return render_template("error.html", error="Shortened URL not found"), 404
 
 @app.route('/qr', methods=['GET'])
 def qr():
