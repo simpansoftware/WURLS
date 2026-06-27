@@ -12,8 +12,10 @@
         <div class="thething abcdeidontknow">
             <form action="/shorten" method="post">
                 <p class="abcdeidontknow">Url:</p>
-                <input type="text" name="url" required><br><br>
-                <input type="submit" value="Submit">
+                <div class="textinput">
+                    <input type="text" name="url" required><br><br>
+                </div>
+                <input type="submit" class="buttoninput" value="Submit">
             </form>
             <p>Total shortened URLs: {{ count }}</p>
         </div>
