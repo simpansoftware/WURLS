@@ -36,7 +36,7 @@ body {
 .buttoninput {
     border-radius: 5px;
     background-color: #181825;
-    color: #9399b2;
+    color: #cdd6f4;
     border: 2px solid #181825;
 }
 
@@ -44,7 +44,7 @@ body {
     border-radius: 5px;
     background-color: #181825;
     color: #cdd6f4;
-    border: 2px solid #cdd6f4;
+    border: 2px solid #9399b2;
 }
 
 .thething {
