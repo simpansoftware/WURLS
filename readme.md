@@ -16,7 +16,7 @@ Go to stats in the bottom right corner, enter your link or shortened id and you 
 Those statistics include the shortened link, the regular one, a qr code and the view count for that website.
 ### Endpoints
 - `GET /qr?url=<shortid>`<br>
-    For seeing the qr code of a shortened page (GET)
+    For seeing the qr code of a shortened page.
 - `GET /l?url=<shortid>`<br>
     For redirecting to a page.
 - `GET /g?url=<url>`<br>
