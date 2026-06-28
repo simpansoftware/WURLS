@@ -15,13 +15,13 @@ Go to the main page and then choose your options and it should be shortened
 Go to stats in the bottom right corner, enter your link or shortened id and you will see statistics. <br>
 Those statistics include the shortened link, the regular one, a qr code and the view count for that website.
 ### Endpoints
-- `GET /qr?url=<shortid>`
+- `GET /qr?url=<shortid>`<br>
     For seeing the qr code of a shortened page (GET)
-- `GET /l?url=<shortid>`
+- `GET /l?url=<shortid>`<br>
     For redirecting to a page.
-- `GET /g?url=<url>`
+- `GET /g?url=<url>`<br>
     For seeing the short id of a page.
-- `POST /shorten` 
+- `POST /shorten` <br>
     Creates a shortened url. Requires form data:
     - `url=<yoururl>` (required)
     - `custom=<YOURCODE>` (optional)
