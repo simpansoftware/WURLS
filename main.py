@@ -7,6 +7,7 @@ import os
 import validators
 import io
 import qrcode
+import re
 
 app = Flask(__name__)
 
@@ -18,13 +19,14 @@ def home():
 
 @app.route('/usage', methods=['GET'])
 def usage():
-    origin = request.headers.get("Origin") or request.host_url
+    origin = request.host_url.rstrip("/")
     return render_template("usage.html", origin=origin)
 
 @app.route('/shorten', methods=['POST'])
 def shorten():
     url = request.form['url']
-    origin = request.headers.get("Origin") or request.host_url
+    custom = request.form.get("custom", "").strip().upper()
+    origin = request.host_url.rstrip("/")
     if validators.url(url) != True:
         return render_template("error.html", error="Invalid URL (maybe you forgot to put https:// before it?)"), 404
     else:
@@ -33,11 +35,20 @@ def shorten():
             for short, info in data.items():
                 if info["long"] == url:
                     return render_template("shorten.html", count=len(data), exists=short, origin=origin)
-            shortened = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
-            while shortened in data:
-                shortened = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+            if custom:
+                if not re.fullmatch(r"[A-Z0-9]{1,20}", custom):
+                    return render_template("error.html", error="Shortened URL not valid"), 409
+                else:
+                    shortened = custom
+                    if shortened in data:
+                        return render_template("error.html", error="Shortened URL already taken"), 409
 
-            data[shortened] = {"long": url}
+            else:
+                shortened = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+                while shortened in data:
+                    shortened = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+
+            data[shortened] = {"long": url, "visits": 0}
             with open("urls.json", "w") as f:
                 json.dump(data, f, indent=4)
 
@@ -52,12 +63,15 @@ def getlink():
     if shortthing not in data:
         return render_template("error.html", error="Shortened URL not found"), 404
 
+    data[shortthing]["visits"] = data[shortthing].get("visits", 0) + 1
+    with open("urls.json", "w") as f:
+        json.dump(data, f, indent=4)
     return redirect(data[shortthing]["long"])
 
 @app.route('/g', methods=['GET'])
 def getshort():
     longthing = request.args.get("url")
-    origin = request.headers.get("Origin") or request.host_url
+    origin = request.host_url.rstrip("/")
     with open("urls.json", "r") as f:
         data = json.load(f)
 
@@ -65,19 +79,47 @@ def getshort():
             if info["long"] == longthing:
                 return render_template("goto.html", origin=origin, url=longthing, short=short)
         
-        if longthing not in data:
-            return render_template("error.html", error="Shortened URL not found"), 404
+        return render_template("error.html", error="Shortened URL not found"), 404
+
+@app.route('/stats', methods=['GET'])
+def stats():
+    thing = request.args.get("url")
+    if thing is None:
+        with open("urls.json", "r") as f:
+            data = json.load(f)
+        return render_template("statthing.html", count=len(data))
+    else:
+        origin = request.host_url.rstrip("/")
+        with open("urls.json", "r") as f:
+            data = json.load(f)
+
+            if thing in data:
+                short = thing
+            else:
+                short = None
+                for code, info in data.items():
+                    if info["long"] == thing:
+                        short = code
+                        break
+                    
+            if short is None:
+                return render_template("error.html", error="Shortened URL not found"), 404
+            
+            longthing = data[short]["long"]
+            visits = data[short].get("visits", 0)
+
+            return render_template("stats.html", origin=origin, url=longthing, short=short, visits=visits)
 
 @app.route('/qr', methods=['GET'])
 def qr():
     qrinput = request.args.get("url")
-    origin = request.headers.get("Origin") or request.host_url
+    origin = request.host_url.rstrip("/")
     buffer = io.BytesIO()
     with open("urls.json", "r") as f:
         data = json.load(f)
 
     if qrinput not in data:
-        return "short url not found", 404
+        return render_template("error.html", error="Shortened URL not found"), 404
 
     url = f"{origin}/l?url={qrinput}"
     img = qrcode.make(url)
@@ -93,8 +135,9 @@ if __name__ == '__main__':
     except FileNotFoundError:
         with open("urls.json", "w") as f:
             f.write("""{
-    "NZPDI": {
-        "long": "https://google.com"
+    "GOOGLE": {
+        "long": "https://google.com",
+        "visits": 0
     }
 }""")
     app.run(host="0.0.0.0", port=5000)

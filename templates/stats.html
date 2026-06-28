@@ -10,13 +10,14 @@
     <div class="centerrect">
         <h1 class="title abcdeidontknow" style="z-index: 9999999;">WURLS</h1>
         <div class="thething abcdeidontknow">
-            <form action="/shorten" method="post">
-                <p class="abcdeidontknow">Url:</p>
-                <input class="textinput" type="url" name="url" placeholder="URL"><br><br>
-                <input type="text" name="custom" class="textinput" placeholder="Custom alias (optional)"><br><br>
-                <input type="submit" class="buttoninput" value="Submit">
-            </form>
-            <p>Total shortened URLs: {{ count }}</p>
+            <h2>Stats</h2>
+            <p>Short link: <strong><a href="{{ origin }}/l?url={{ short }}">{{origin}}/l?url={{ short }}</a></strong></p>
+            <p>Redirects to: <strong><a href="{{ url }}">{{ url }}</a></strong></p>
+            <p>Visits: {{ visits }}</p>
+            <details>
+                <summary>Show QR code</summary>
+                <img src="/qr?url={{ short }}" alt="its the god damn qr code!">
+            </details>
         </div>
     </div>
     <div class="footer">
